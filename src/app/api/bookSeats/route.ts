@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase } from "../../../lib/mongodb";
 
 const COACH_ID = "single_coach";
 
+interface Coach {
+  _id: string;
+  seats: (number | null)[];
+  lastBookingId: number;
+}
 export async function POST(request: Request) {
   const { seats } = await request.json();
 
@@ -15,15 +20,15 @@ export async function POST(request: Request) {
 
   const { db } = await connectToDatabase();
 
-  let coach = await db.collection("coaches").findOne({ _id: COACH_ID });
+  let coach = await db.collection<Coach>("coaches").findOne({ _id: COACH_ID });
 
   if (!coach) {
     coach = {
       _id: COACH_ID,
       seats: Array(80).fill(null),
       lastBookingId: 0,
-    };
-    await db.collection("coaches").insertOne(coach);
+    } as Coach;
+    await db.collection<Coach>("coaches").insertOne(coach);
   }
 
   const availableSeats = coach.seats.filter((seat) => seat === null).length;
@@ -54,7 +59,7 @@ export async function POST(request: Request) {
 
   const bookedSeats = findAndBookSeats(coach.seats, seats, coach.lastBookingId);
 
-  await db.collection("coaches").updateOne(
+  await db.collection<Coach>("coaches").updateOne(
     { _id: COACH_ID },
     {
       $set: {

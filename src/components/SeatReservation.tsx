@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { bookSeats, getAllSeats, resetCoach } from "../lib/api";
+import { bookSeats, getAllSeats, resetCoach } from "@/lib/api";
 
 const SeatReservation = () => {
   const [seats, setSeats] = useState<number>(0);

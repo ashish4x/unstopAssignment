@@ -1,4 +1,4 @@
-import SeatReservation from "../components/SeatReservation";
+import SeatReservation from "@/components/SeatReservation";
 
 export default function Home() {
   return (
