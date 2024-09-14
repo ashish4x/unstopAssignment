@@ -64,7 +64,7 @@ const SeatReservation = () => {
           min="1"
           max="7"
           required
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-black"
         />
         <div className="mt-4 flex space-x-4">
           <button
